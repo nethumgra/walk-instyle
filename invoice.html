@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -197,9 +198,19 @@
 
                  <div>
                     <h3 class="font-semibold text-lg border-b dark:border-gray-600 pb-2 mb-4">Payment Details</h3>
-                    <div>
-                        <label for="tax-rate" class="text-sm font-medium text-gray-600 dark:text-gray-400">Tax Rate (%)</label>
-                        <input type="number" id="tax-rate" value="0" min="0" class="form-input mt-1 max-w-xs">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="tax-rate" class="text-sm font-medium text-gray-600 dark:text-gray-400">Tax Rate (%)</label>
+                            <input type="number" id="tax-rate" value="0" min="0" class="form-input mt-1">
+                        </div>
+                        <div>
+                            <label for="bank-name" class="text-sm font-medium text-gray-600 dark:text-gray-400">Bank Name</label>
+                            <input type="text" id="bank-name" value="Central Bank" class="form-input mt-1">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                         <label for="account-number" class="text-sm font-medium text-gray-600 dark:text-gray-400">Account Number</label>
+                         <input type="text" id="account-number" value="123894098293" class="form-input mt-1">
                     </div>
                     <div class="mt-4">
                         <label for="terms" class="text-sm font-medium text-gray-600 dark:text-gray-400">Terms & Conditions</label>
@@ -237,8 +248,8 @@
                         </div>
                         <div class="text-right">
                             <p class="section-title">PAYMENT INFORMATION:</p>
-                            <p class="text-sm text-gray-700"><strong>Bank Name:</strong> Central Bank</p>
-                            <p class="text-sm text-gray-700"><strong>Account:</strong> 123894098293</p>
+                            <p class="text-sm text-gray-700"><strong>Bank Name:</strong> <span id="preview-bank-name">Central Bank</span></p>
+                            <p class="text-sm text-gray-700"><strong>Account:</strong> <span id="preview-account-number">123894098293</span></p>
                         </div>
                     </div>
 

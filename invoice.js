@@ -37,7 +37,9 @@ const addItemBtn = document.getElementById('add-item-btn');
 const taxRateInput = document.getElementById('tax-rate');
 const termsInput = document.getElementById('terms');
 const downloadPdfBtn = document.getElementById('download-pdf-btn');
-const downloadPngBtn = document.getElementById('download-png-btn'); 
+const downloadPngBtn = document.getElementById('download-png-btn');
+const bankNameInput = document.getElementById('bank-name'); 
+const accountNumberInput = document.getElementById('account-number'); 
 
 // Preview Elements
 const previewLogo = document.getElementById('preview-logo');
@@ -58,6 +60,8 @@ const previewTerms = document.getElementById('preview-terms');
 const previewCompanyEmail = document.getElementById('preview-company-email');
 const previewCompanyWebsite = document.getElementById('preview-company-website');
 const previewCompanyPhone = document.getElementById('preview-company-phone');
+const previewBankName = document.getElementById('preview-bank-name'); 
+const previewAccountNumber = document.getElementById('preview-account-number'); 
 
 // --- State Management ---
 let items = [];
@@ -80,6 +84,8 @@ function updatePreview() {
     previewCompanyEmail.textContent = fromEmailInput.value || "info@walkinstyle.com";
     previewCompanyWebsite.textContent = fromWebsiteInput.value || "www.walkinstyle.com";
     previewCompanyPhone.textContent = fromPhoneInput.value || "(+94) 77-123-4567";
+    previewBankName.textContent = bankNameInput.value || "Not specified";
+    previewAccountNumber.textContent = accountNumberInput.value || "Not specified";
 }
 
 function renderItems() {
@@ -197,6 +203,10 @@ downloadPdfBtn.addEventListener('click', () => {
         alert("Error: PDF generation library is not loaded.");
         return;
     }
+
+    const originalShadow = invoiceElement.style.boxShadow;
+    invoiceElement.style.boxShadow = 'none';
+
     const options = {
         margin: 0,
         filename: `invoice-${generateInvoiceNumber()}.pdf`,
@@ -204,13 +214,19 @@ downloadPdfBtn.addEventListener('click', () => {
         html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
-    html2pdf().set(options).from(invoiceElement).save().catch(err => {
+    
+    const worker = html2pdf().set(options).from(invoiceElement);
+    
+    worker.save().then(() => {
+        invoiceElement.style.boxShadow = originalShadow;
+    }).catch(err => {
+        invoiceElement.style.boxShadow = originalShadow;
         console.error("Error during PDF generation:", err);
         alert("Sorry, an error occurred while generating the PDF.");
     });
 });
 
-// === NEW/UPDATED PNG DOWNLOAD FUNCTIONALITY ===
+
 downloadPngBtn.addEventListener('click', () => {
     const invoiceElement = document.getElementById('invoice-preview');
     if (typeof html2canvas === 'undefined') {
